@@ -29,9 +29,9 @@ const HomePage = ({ heading, subheading, background_image, quote_author, quote_c
           display: grid;
           width: 100%;
         }
-        @media screen and (min-width: 600px) {
+        @media screen and (min-width: 768px) {
           main {
-            grid-template-columns: auto 320px;
+            grid-template-columns: auto 480px;
           }
         }
         .sidebar {
