@@ -1,0 +1,12 @@
+export const mobile = 'mobile';
+export const mobile2x = 'mobile_retina';
+export const mobileL = 'mobile_large';
+export const mobileL2x = 'mobile_large_retina';
+export const tablet = 'tablet';
+export const tablet2x = 'tablet_retina';
+export const desktopS = 'desktop_small';
+export const desktopS2x = 'desktop_small_retina';
+export const desktop = 'desktop_med';
+export const desktop2x = 'desktop_med_retina';
+export const desktopL = '4k';
+export const desktopL2x = '4k_retina';
