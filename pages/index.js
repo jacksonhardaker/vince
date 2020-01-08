@@ -6,10 +6,23 @@ import Container from '../components/Container';
 const HomePage = ({ heading, subheading, background_image }) => {
   return (
     <main>
-      <Container bgImage={background_image}>
+      <Container bgImage={background_image} align="left center">
+      </Container>
+      <div className="sidebar">
         <h1>{heading}</h1>
         <h2>{subheading}</h2>
-      </Container>
+      </div>
+      <style jsx>{`
+        main {
+          display: grid;
+          width: 100%;
+          grid-template-columns: auto 320px;
+        }
+        .sidebar {
+          background-color: #009473;
+          color: #fff;
+        }
+      `}</style>
     </main>
   );
 };

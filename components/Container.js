@@ -13,7 +13,7 @@ import {
   desktopL2x,
 } from '../styles/image-sizes';
 
-const Container = ({ bgImage = {}, children }) => {
+const Container = ({ bgImage = {}, children, align = 'center center' }) => {
   const get = size => bgImage[size];
 
   return (
@@ -23,7 +23,7 @@ const Container = ({ bgImage = {}, children }) => {
         {`
           .Container {
             background-size: cover;
-            background-position: center center;
+            background-position: ${align};
           }
 
           /* Mobile */
