@@ -3,7 +3,10 @@ import 'normalize.css/normalize.css';
 import fetchSettings from '../fetch/fetchSettings';
 
 const MainApp = ({ Component, pageProps, fonts, generalFont, headingFont }) => {
-  console.log(fonts);
+
+  const serif = `'${headingFont}', serif`;
+  const sansSerif = `'${generalFont}', sans-serif`;
+
   return (
     <>
        <Component {...pageProps} />
@@ -13,13 +16,16 @@ const MainApp = ({ Component, pageProps, fonts, generalFont, headingFont }) => {
           html, body, #__next {
             min-height: 100vh;
             width: 100%;
-            font-family: '${generalFont}', sans-serif;
+            font-family: ${sansSerif};
           }
           #__next {
             display: flex;
           }
           h1,h2,h3,h4,h5,h6 {
-            font-family: '${headingFont}', serif;
+            font-family: ${serif};
+          }
+          blockquote::before {
+            font-family: ${serif};
           }
         `}</style>
     </>
