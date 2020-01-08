@@ -1,10 +1,11 @@
 import React from 'react';
+import { RichText } from 'prismic-reactjs';
 import fetchHomePageContent from '../fetch/fetchHomePageContent';
 import fetchEvents from '../fetch/fetchEvents';
 import Container from '../components/Container';
 import Quote from '../components/Quote';
 
-const HomePage = ({ heading, subheading, background_image, quote_author, quote_content, quote_publication, quote_link }) => {
+const HomePage = ({ heading, subheading, background_image, quote_author, quote_content, quote_publication, quote_link, short_bio }) => {
   return (
     <main>
       <Container bgImage={background_image}>
@@ -18,6 +19,10 @@ const HomePage = ({ heading, subheading, background_image, quote_author, quote_c
           content={quote_content}
           cite={quote_link}
           publication={quote_publication} />
+
+          <div className="bio">
+            {RichText.render(short_bio)}
+          </div>
       </div>
       <style jsx>{`
         main {
