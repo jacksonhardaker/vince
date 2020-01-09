@@ -1,18 +1,36 @@
 import React from 'react';
 import { RichText } from 'prismic-reactjs';
+import hexToRgba from 'hex-to-rgba';
 import fetchHomePageContent from '../fetch/fetchHomePageContent';
 import fetchEvents from '../fetch/fetchEvents';
 import Container from '../components/Container';
 import Quote from '../components/Quote';
+import SocialButton from '../components/SocialButton';
 
-const HomePage = ({ heading, subheading, background_image, quote_author, quote_content, quote_publication, quote_link, short_bio }) => {
+const HomePage = ({
+  heading,
+  subheading,
+  background_image,
+  quote_author,
+  quote_content,
+  quote_publication,
+  quote_link,
+  short_bio,
+  sidebar_background,
+  sidebar_text,
+  events,
+}) => {
+  console.log(events);
+
   return (
     <main>
       <Container bgImage={background_image}>
       </Container>
       <div className="sidebar">
-        <h1>{heading}</h1>
-        <h2>{subheading}</h2>
+        <header>
+          <h1>{heading}</h1>
+          <h2>{subheading}</h2>
+        </header>
 
         <Quote
           author={quote_author}
@@ -20,9 +38,13 @@ const HomePage = ({ heading, subheading, background_image, quote_author, quote_c
           cite={quote_link}
           publication={quote_publication} />
 
-          <div className="bio">
-            {RichText.render(short_bio)}
-          </div>
+        <div className="bio">
+          {RichText.render(short_bio)}
+        </div>
+
+        <footer>
+          <SocialButton solid="envelope" href="mailto:vincenthardaker@gmail.com" fill={sidebar_text} />
+        </footer>
       </div>
       <style jsx>{`
         main {
@@ -35,8 +57,24 @@ const HomePage = ({ heading, subheading, background_image, quote_author, quote_c
           }
         }
         .sidebar {
-          background-color: #009473;
-          color: #fff;
+          display: flex;
+          flex-direction: column;
+          background-color: ${sidebar_background};
+          color: ${sidebar_text};
+          padding: 2rem;
+        }
+        h1, h2 {
+          text-align: right;
+        }
+        header {
+          border-bottom: 1px solid ${hexToRgba(sidebar_text, 0.3)};
+        }
+        footer {
+          padding-top: 2rem;
+          margin: auto auto 0;
+          width: 100%;
+          border-top: 1px solid ${hexToRgba(sidebar_text, 0.3)};
+          text-align: center;
         }
       `}</style>
     </main>
@@ -46,10 +84,9 @@ const HomePage = ({ heading, subheading, background_image, quote_author, quote_c
 HomePage.getInitialProps = async () => {
   const homeRes = await fetchHomePageContent();
   const calendarRes = await fetchEvents({ pageSize: 3 });
-  console.log(homeRes.data);
 
   if (homeRes.data) {
-    return { ...homeRes.data };
+    return { ...homeRes.data, events: calendarRes };
   }
 
   return {};
