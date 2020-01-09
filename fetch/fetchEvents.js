@@ -9,7 +9,7 @@ const fetchEvents = async ({ pageSize, page} = {}) => {
   );
 
   if (response) {
-    return response.results;
+    return response.results.map(result => result.data);
   }
 
   return null;

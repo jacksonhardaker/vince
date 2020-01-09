@@ -6,6 +6,7 @@ import fetchEvents from '../fetch/fetchEvents';
 import Container from '../components/Container';
 import Quote from '../components/Quote';
 import SocialButton from '../components/SocialButton';
+import Calendar from '../components/Calendar';
 
 const HomePage = ({
   heading,
@@ -20,11 +21,11 @@ const HomePage = ({
   sidebar_text,
   events,
 }) => {
-  console.log(events);
 
   return (
     <main>
       <Container bgImage={background_image}>
+        <Calendar events={events} />
       </Container>
       <div className="sidebar">
         <header>
