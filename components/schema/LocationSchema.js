@@ -1,7 +1,7 @@
-import { Generic } from 'react-structured-data';
-
-const LocationSchema = (name) => <Generic type="location" jsonldtype="Place" schema={{
-  name
-}} />;
+const LocationSchema = ({ name }) => name ? JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Place",
+  name,
+}) : null;
 
 export default LocationSchema;

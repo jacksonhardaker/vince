@@ -1,6 +1,7 @@
 import React from 'react';
 import { RichText } from 'prismic-reactjs';
 import hexToRgba from 'hex-to-rgba';
+import Head from 'next/head';
 import fetchHomePageContent from '../fetch/fetchHomePageContent';
 import fetchEvents from '../fetch/fetchEvents';
 import Container from '../components/Container';
@@ -25,9 +26,12 @@ const HomePage = ({
 
   return (
     <main>
+      <Head>
+        <title>Vincent Hardaker | Conductor</title>
+      </Head>
       <Container bgImage={background_image}>
       </Container>
-      <Calendar events={events} />
+    <Calendar events={events} />
       <div className="sidebar">
         <header>
           <h1>{heading}</h1>

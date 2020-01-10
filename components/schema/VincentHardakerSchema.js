@@ -1,11 +1,13 @@
-import { Generic } from 'react-structured-data';
-
-const VincentHardakerSchema = type => <Generic {...{ type }} jsonldtype="Person" schema={{
+const VincentHardakerSchema = () => JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Person",
+  email: "vincenthardaker@gmail.com",
+  jobTitle: "Conductor",
   givenName: 'Vincent',
   familyName: 'Hardaker',
-  email: 'vincenthardaker@gmail.com',
-  jobTitle: 'Conductor',
-  nationality: 'New Zealand',
-}} />;
+  nationality: "New Zealand",
+  url: "https://www.vincenthardaker.com",
+  sameAs: ["https://www.instagram.com/vincehardaker/"]
+});
 
 export default VincentHardakerSchema;

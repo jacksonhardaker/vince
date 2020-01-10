@@ -1,7 +1,9 @@
-import { JSONLD, Generic } from 'react-structured-data';
 import { Date } from 'prismic-reactjs';
 import VincentHardakerSchema from './schema/VincentHardakerSchema';
 import LocationSchema from './schema/LocationSchema';
+import JSONLD from './schema/JSONLD';
+import MusicEventSchema from './schema/MusicEventSchema';
+import last from 'lodash/last';
 
 const groupDatesByMonth = dates => {
   const results = [
@@ -44,15 +46,14 @@ const Calendar = ({ events }) => {
     return (
       <li key={id}>
         <JSONLD>
-          <Generic type="event" jsonldtype="Event" schema={{
-            name: heading,
-            startDate: dates[0].date,
-            endDate: dates[dates.length - 1].date,
-            description: description
-          }}>
-            {LocationSchema(location)}
-            {VincentHardakerSchema('performer')}
-          </Generic>
+          <MusicEventSchema
+            name={heading}
+            startDate={dates[0].date}
+            endDate={last(dates).date}
+            description={description}
+            location={LocationSchema({ name: location })}
+            performer={VincentHardakerSchema()}
+           />
         </JSONLD>
         <h3>{heading}</h3>
         {parsedDates.map(month => (
