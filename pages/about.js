@@ -3,6 +3,7 @@ import { RichText } from 'prismic-reactjs';
 import fetchAboutPageContent from '../fetch/fetchAboutPageContent';
 import Quote from '../components/Quote';
 import Video from '../components/Video';
+import Breadcrumb from '../components/Breadcrumb';
 
 const AboutPage = (props) => {
   console.log(props);
@@ -14,6 +15,7 @@ const AboutPage = (props) => {
       <Head>
         <title>Biography | Vincent Hardaker</title>
       </Head>
+      <Breadcrumb href="/about" page="Biography" />
       <h1>Biography</h1>
       <div className="quotes">
         {quotes.map(({ quote_author, quote_content, quote_link, quote_publication }, index) => (
