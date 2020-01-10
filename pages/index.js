@@ -1,7 +1,7 @@
-import React from 'react';
 import { RichText } from 'prismic-reactjs';
 import hexToRgba from 'hex-to-rgba';
 import Head from 'next/head';
+import Link from 'next/link';
 import fetchHomePageContent from '../fetch/fetchHomePageContent';
 import fetchEvents from '../fetch/fetchEvents';
 import Container from '../components/Container';
@@ -48,6 +48,10 @@ const HomePage = ({
           {RichText.render(short_bio)}
         </div>
 
+        <Link href="/about">
+          <a>Read More</a>
+        </Link>
+
         <footer>
           <SocialButton solid="envelope" href="mailto:vincenthardaker@gmail.com" fill={sidebar_text} />
         </footer>
@@ -67,6 +71,15 @@ const HomePage = ({
         }
         h1, h2 {
           text-align: right;
+        }
+        a {
+          color: ${sidebar_text};
+          align-self: flex-start;
+          padding: 0.3rem;
+        }
+        a:hover, a:active {
+          color: ${sidebar_background};
+          background-color: ${sidebar_text};
         }
         header {
           border-bottom: 1px solid ${hexToRgba(sidebar_text, 0.3)};

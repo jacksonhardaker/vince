@@ -27,6 +27,9 @@ const MainApp = ({ Component, pageProps, fonts, generalFont, headingFont }) => {
           blockquote::before {
             font-family: ${serif};
           }
+          p {
+            line-height: 1.5;
+          }
         `}</style>
     </>
   );
