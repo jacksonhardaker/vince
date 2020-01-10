@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import JSONLD from './schema/JSONLD';
 
-const Breadcrumb = ({ page, href }) => {
+const Breadcrumb = ({ page, href, color, hover }) => {
   return (
     <nav>
       <JSONLD>
@@ -33,13 +33,13 @@ const Breadcrumb = ({ page, href }) => {
       <style jsx>
         {`
           a {
-            color: #000;
+            color: ${color};
             align-self: flex-start;
             padding: 0.3rem;
           }
           a:hover, a:active {
-            color: #fff;
-            background-color: #000;
+            color: ${hover};
+            background-color: ${color};
           }
           span {
             margin: 0 1ch;

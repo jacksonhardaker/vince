@@ -7,15 +7,14 @@ import Breadcrumb from '../components/Breadcrumb';
 
 const AboutPage = (props) => {
   console.log(props);
-  const { biography, quotes, videos } = props;
-  console.log(videos);
+  const { biography, quotes, videos, background_color, text_color } = props;
 
   return (
     <main>
       <Head>
         <title>Biography | Vincent Hardaker</title>
       </Head>
-      <Breadcrumb href="/about" page="Biography" />
+      <Breadcrumb href="/about" page="Biography" color={text_color} hover={background_color} />
       <h1>Biography</h1>
       <div className="quotes">
         {quotes.map(({ quote_author, quote_content, quote_link, quote_publication }, index) => (
@@ -42,6 +41,8 @@ const AboutPage = (props) => {
             max-width: 600px;
             margin: 0 auto;
             padding: 2rem;
+            background-color: ${background_color};
+            color: ${text_color};
           }
         `}
       </style>
