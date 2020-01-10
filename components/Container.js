@@ -1,4 +1,5 @@
 import {
+  blur,
   mobile,
   mobile2x,
   mobileL,
@@ -12,28 +13,51 @@ import {
   desktopL,
   desktopL2x,
 } from '../styles/image-sizes';
+import { base, element } from '../styles/z-index';
 
 const Container = ({ bgImage = {}, children, align = 'center center' }) => {
   const get = size => bgImage[size];
 
   return (
     <div className="Container">
-      {children}
+      <div className="Container--blur">
+      </div>
+      <div className="Container--hd">
+        {children}
+      </div>
       <style jsx>
         {`
           .Container {
+            position: relative;
+            overflow: hidden;
+          }
+          .Container--hd, .Container--blur {
+            width: 100%;
+            height: 100%;
             background-size: cover;
             background-position: ${align};
+          }
+          .Container--blur {
+            position: absolute;
+            background-size: cover;
+            background-position: ${align};
+            background-image: url(${get(blur).url});
+            z-index: ${base};
+            filter: blur(8px);
+          }
+          .Container--hd {
+            position: relative;
+            z-index: ${element};
           }
 
           /* Mobile */
           @media screen and (max-width: 320px) {
-            .Container {
+            .Container--hd {
               background-image: url(${get(mobile).url});
             }
 
             @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
-              .Container {
+              .Container--hd {
                 background-image: url(${get(mobile2x).url})
               }
             }
@@ -41,12 +65,12 @@ const Container = ({ bgImage = {}, children, align = 'center center' }) => {
 
           /* Mobile Large */
           @media screen and (min-width: 321px) {
-            .Container {
+            .Container--hd {
               background-image: url(${get(mobileL).url});
             }
 
             @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
-              .Container {
+              .Container--hd {
                 background-image: url(${get(mobileL2x).url})
               }
             }
@@ -54,12 +78,12 @@ const Container = ({ bgImage = {}, children, align = 'center center' }) => {
 
           /* Tablet */
           @media screen and (min-width: 600px) {
-            .Container {
+            .Container--hd {
               background-image: url(${get(tablet).url});
             }
 
             @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
-              .Container {
+              .Container--hd {
                 background-image: url(${get(tablet2x).url})
               }
             }
@@ -67,12 +91,12 @@ const Container = ({ bgImage = {}, children, align = 'center center' }) => {
 
           /* Desktop Small */
           @media screen and (min-width: 768px) {
-            .Container {
+            .Container--hd {
               background-image: url(${get(desktopS).url});
             }
 
             @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
-              .Container {
+              .Container--hd {
                 background-image: url(${get(desktopS2x).url})
               }
             }
@@ -80,12 +104,12 @@ const Container = ({ bgImage = {}, children, align = 'center center' }) => {
 
           /* Desktop Medium */
           @media screen and (min-width: 1024px) {
-            .Container {
+            .Container--hd {
               background-image: url(${get(desktop).url});
             }
 
             @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
-              .Container {
+              .Container--hd {
                 background-image: url(${get(desktop2x).url})
               }
             }
@@ -93,12 +117,12 @@ const Container = ({ bgImage = {}, children, align = 'center center' }) => {
 
           /* Desktop Large */
           @media screen and (min-width: 1440px) {
-            .Container {
+            .Container--hd {
               background-image: url(${get(desktopL).url});
             }
 
             @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
-              .Container {
+              .Container--hd {
                 background-image: url(${get(desktopL2x).url})
               }
             }

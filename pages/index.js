@@ -7,6 +7,7 @@ import Container from '../components/Container';
 import Quote from '../components/Quote';
 import SocialButton from '../components/SocialButton';
 import Calendar from '../components/Calendar';
+import { base, element } from '../styles/z-index';
 
 const HomePage = ({
   heading,
@@ -25,8 +26,8 @@ const HomePage = ({
   return (
     <main>
       <Container bgImage={background_image}>
-        <Calendar events={events} />
       </Container>
+      <Calendar events={events} />
       <div className="sidebar">
         <header>
           <h1>{heading}</h1>
@@ -51,10 +52,12 @@ const HomePage = ({
         main {
           display: grid;
           width: 100%;
+          grid-template-rows: 320px auto;
         }
         @media screen and (min-width: 768px) {
           main {
             grid-template-columns: auto 480px;
+            grid-template-rows: auto;
           }
         }
         .sidebar {
@@ -78,6 +81,27 @@ const HomePage = ({
           text-align: center;
         }
       `}</style>
+      <style global jsx>
+        {`
+          .Container {
+            grid-column: 1 / 2;
+            grid-row: 1 / 2;
+            z-index: ${base};
+          }
+          .Calendar {
+            background: linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 50%, transparent 80%);
+            grid-column: 1 / 2;
+            grid-row: 1 / 2;
+            position: relative;
+            z-index: ${element};
+          }
+          @media screen and (min-width: 768px) {
+            .Calendar {
+              background: transparent;
+            }
+          }
+        `}
+      </style>
     </main>
   );
 };

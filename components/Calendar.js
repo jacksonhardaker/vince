@@ -35,13 +35,14 @@ const groupDatesByMonth = dates => {
 
 const Calendar = ({ events }) => {
 
-  const displayEvent = (event, index) => {
-    const dates = [{ date: event.first_date, time: event.first_time }, ...event.more_dates];
-    const { heading, location, description } = event;
+  const displayEvent = event => {
+    const { data, id } = event;
+    const dates = [{ date: data.first_date, time: data.first_time }, ...data.more_dates];
+    const { heading, location, description } = data;
     const parsedDates = groupDatesByMonth(dates);
 
     return (
-      <li key={index}>
+      <li key={id}>
         <JSONLD>
           <Generic type="event" jsonldtype="Event" schema={{
             name: heading,
@@ -53,39 +54,63 @@ const Calendar = ({ events }) => {
             {VincentHardakerSchema('performer')}
           </Generic>
         </JSONLD>
-        <h3>{event.heading}</h3>
+        <h3>{heading}</h3>
         {parsedDates.map(month => (
           <p key={month.name}>
-            <span>
+            <span className="dates">
               {month.dates.map(datetime => datetime.date).join(',')}
             </span>
-            <span>
+            <span className="month">
               {month.name}
             </span>
           </p>
         ))}
+        <style jsx>
+          {`
+            h3 {
+              margin-bottom: 0;
+            }
+            p {
+              margin-top: 0;
+            }
+            .dates {
+              margin-right: 1ch;
+            }
+          `}
+        </style>
       </li>
     );
   };
 
   const displayEvents = () => {
     return (
-      <ul>
-        {events.map(displayEvent)}
-      </ul>
+      <>
+        <ul>
+          {events.map(displayEvent)}
+        </ul>
+        <style jsx>
+          {`
+            ul {
+              padding-left: 0;
+              list-style: none;
+            }
+          `}
+        </style>
+      </>
     );
   };
 
   return (
     <>
-      <aside>
+      <aside className="Calendar">
         <h2>Calendar</h2>
         {displayEvents()}
       </aside>
       <style jsx>
         {`
         aside {
-          background-color: #fff;
+          padding: 2rem;
+          color: #fff;
         }
       `}
       </style>

@@ -1,0 +1,13 @@
+export const base = 0;
+export const element = 100;
+export const dropdown = 200;
+export const secondaryNavigation = 300;
+export const header = 400;
+export const footer = 400;
+export const navigation = 500;
+export const fullscreen = 600;
+export const special = 700;
+export const modalOverlay = 750;
+export const modal = 800;
+export const notification = 900;
+export const mtEverest = 999;

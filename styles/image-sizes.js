@@ -1,3 +1,4 @@
+export const blur ='blur';
 export const mobile = 'mobile';
 export const mobile2x = 'mobile_retina';
 export const mobileL = 'mobile_large';
