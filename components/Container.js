@@ -44,6 +44,7 @@ const Container = ({ bgImage = {}, children, align = 'center center' }) => {
             background-image: url(${get(blur).url});
             z-index: ${base};
             filter: blur(8px);
+            transform: scale(1.05);
           }
           .Container--hd {
             position: relative;

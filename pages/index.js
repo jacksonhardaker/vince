@@ -54,12 +54,6 @@ const HomePage = ({
           width: 100%;
           grid-template-rows: 320px auto;
         }
-        @media screen and (min-width: 768px) {
-          main {
-            grid-template-columns: auto 480px;
-            grid-template-rows: auto;
-          }
-        }
         .sidebar {
           display: flex;
           flex-direction: column;
@@ -79,6 +73,17 @@ const HomePage = ({
           width: 100%;
           border-top: 1px solid ${hexToRgba(sidebar_text, 0.3)};
           text-align: center;
+        }
+        @media screen and (min-width: 768px) {
+          main {
+            grid-template-columns: auto 480px;
+            grid-template-rows: auto;
+          }
+          .sidebar {
+            position: relative;
+            z-index: ${element};
+            box-shadow: -3px 0px 10px 0px rgba(0,0,0,0.3);
+          }
         }
       `}</style>
       <style global jsx>
