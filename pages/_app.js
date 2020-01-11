@@ -4,15 +4,14 @@ import fetchSettings from '../fetch/fetchSettings';
 import PrismicPreviewScript from '../components/PrismicPreviewScript';
 
 const MainApp = ({ Component, pageProps, fonts, generalFont, headingFont, preview }) => {
-
-  const serif = `'${headingFont}', serif`;
-  const sansSerif = `'${generalFont}', sans-serif`;
+  const serif =  headingFont ? `'${headingFont}',"Palatino Linotype", "Book Antiqua", Palatino, serif` : `"Palatino Linotype", "Book Antiqua", Palatino, serif`;
+  const sansSerif = generalFont ? `'${generalFont}', Verdana, Geneva, sans-serif` : "Verdana, Geneva, sans-serif";
 
   return (
     <>
       <Component {...pageProps} />
       <style global jsx>{`
-          @import url('https://fonts.googleapis.com/css?family=${fonts}&display=swap');
+          ${fonts[0] ? `@import url('https://fonts.googleapis.com/css?family=${fonts}&display=swap');` : null}
 
           html, body, #__next {
             min-height: 100vh;
@@ -40,11 +39,26 @@ const MainApp = ({ Component, pageProps, fonts, generalFont, headingFont, previe
   );
 };
 
+const prepareFonts = (general, heading) => {
+  const fonts = [];
+  console.log(general);
+
+  if (general) {
+    fonts.push(general);
+  }
+
+  if(heading) {
+    fonts.push(heading);
+  }
+
+  return fonts.join('|').replace(/\s/g, '+');
+};
+
 MainApp.getInitialProps = async (appContext) => {
   // calls page's `getInitialProps` and fills `appProps.pageProps`
   const appProps = await App.getInitialProps(appContext);
   const { general_font, heading_font } = await fetchSettings();
-  const fonts = [general_font, heading_font].join('|').replace(/\s/g, '+');
+  const fonts = prepareFonts(general_font, heading_font);
   const { query } = appContext.ctx;
 
   return {
