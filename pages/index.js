@@ -130,7 +130,7 @@ const HomePage = ({
 
 HomePage.getInitialProps = async () => {
   const homeRes = await fetchHomePageContent();
-  const calendarRes = await fetchEvents({ pageSize: 3 });
+  const calendarRes = await fetchEvents({ pageSize: 3, afterToday: true });
 
   if (homeRes.data) {
     return { ...homeRes.data, events: calendarRes };
