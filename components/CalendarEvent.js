@@ -1,20 +1,23 @@
+import React, { useEffect, useState, useRef } from 'react';
 import { Date } from 'prismic-reactjs';
-import useGroupDatesByMonth from "../hooks/useGroupDatesByMonth";
-
-	
-// var date = PrismicDOM.Date(document.data.postDate);
- 
-// var formattedDate = new Intl.DateTimeFormat('en-US',{
-//   year: "numeric",
-//   month: "short",
-//   day: "2-digit"
-// }).format(date);
+import last from 'lodash/last';
+import JSONLD from './schema/JSONLD';
+import MusicEventSchema from './schema/MusicEventSchema';
+import VincentHardakerSchema from './schema/VincentHardakerSchema';
+import LocationSchema from './schema/LocationSchema';
 
 const CalendarEvent = ({ event }) => {
+  const [hash, setHash] = useState(null);
   const { data, id } = event;
   const dates = [{ date: data.first_date, time: data.first_time }, ...data.more_dates];
   const { heading, location, description } = data;
-  const parsedDates = useGroupDatesByMonth(dates);
+  const element = useRef(null);
+
+  const getHash = () => {
+    return window && window.location && window.location.hash[0] ?
+      window.location.hash.slice(1) :
+      null;
+  };
 
   const format = date => {
     return new Intl.DateTimeFormat('en-US', {
@@ -25,8 +28,49 @@ const CalendarEvent = ({ event }) => {
     }).format(Date(date))
   };
 
+  const handleHashChange = () => {
+    setHash(getHash());
+  };
+
+  const handleClick = () => {
+    window.location.hash = `#${id}`;
+  };
+
+  useEffect(() => {
+    setHash(getHash());
+  }, []);
+
+  useEffect(() => {
+    if (hash === id) {
+      element.current.focus();
+    }
+  }, [hash]);
+
+  useEffect(() => {
+    window.addEventListener('hashchange', handleHashChange, false);
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    }
+  }, [handleHashChange]);
+
   return (
-    <div>
+    <div
+    id={id}
+    className="CalendarEvent"
+    onClick={handleClick} tabIndex={0}
+    ref={element} >
+    <JSONLD>
+      <MusicEventSchema
+        name={heading}
+        startDate={dates[0].date}
+        endDate={last(dates).date}
+        description={description}
+        location={LocationSchema({ name: location })}
+        performer={VincentHardakerSchema()}
+       />
+    </JSONLD>
+
       <h2>{heading}</h2>
       {location && <h3>{location}</h3>}
       {description && <p>{description}</p>}
@@ -40,6 +84,9 @@ const CalendarEvent = ({ event }) => {
       </ul>
       <style jsx>
         {`
+          .CalendarEvent {
+            padding: 0.3rem 1rem;
+          }
           ul {
             list-style: none;
             padding-left: 0;
