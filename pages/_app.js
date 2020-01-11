@@ -1,16 +1,17 @@
 import App from 'next/app'
 import 'normalize.css/normalize.css';
 import fetchSettings from '../fetch/fetchSettings';
+import PrismicPreviewScript from '../components/PrismicPreviewScript';
 
-const MainApp = ({ Component, pageProps, fonts, generalFont, headingFont }) => {
+const MainApp = ({ Component, pageProps, fonts, generalFont, headingFont, preview }) => {
 
   const serif = `'${headingFont}', serif`;
   const sansSerif = `'${generalFont}', sans-serif`;
 
   return (
     <>
-       <Component {...pageProps} />
-       <style global jsx>{`
+      <Component {...pageProps} />
+      <style global jsx>{`
           @import url('https://fonts.googleapis.com/css?family=${fonts}&display=swap');
 
           html, body, #__next {
@@ -31,6 +32,7 @@ const MainApp = ({ Component, pageProps, fonts, generalFont, headingFont }) => {
             line-height: 1.5;
           }
         `}</style>
+      <PrismicPreviewScript {...{ preview }} />
     </>
   );
 };
@@ -40,12 +42,14 @@ MainApp.getInitialProps = async (appContext) => {
   const appProps = await App.getInitialProps(appContext);
   const { general_font, heading_font } = await fetchSettings();
   const fonts = [general_font, heading_font].join('|').replace(/\s/g, '+');
+  const { query } = appContext.ctx;
 
   return {
     ...appProps,
     fonts,
     generalFont: general_font,
-    headingFont: heading_font
+    headingFont: heading_font,
+    preview: !!query.preview
   };
 }
 
