@@ -31,6 +31,9 @@ const MainApp = ({ Component, pageProps, fonts, generalFont, headingFont, previe
           p {
             line-height: 1.5;
           }
+          iframe {
+            max-width: 100%;
+          }
         `}</style>
       <PrismicPreviewScript {...{ preview }} />
     </>

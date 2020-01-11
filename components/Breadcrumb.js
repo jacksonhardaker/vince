@@ -37,7 +37,7 @@ const Breadcrumb = ({ page, href, color, hover }) => {
             align-self: flex-start;
             padding: 0.3rem;
           }
-          a:hover, a:active {
+          a:hover, a:active, a:focus {
             color: ${hover};
             background-color: ${color};
           }

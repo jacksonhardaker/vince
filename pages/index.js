@@ -7,7 +7,7 @@ import fetchEvents from '../fetch/fetchEvents';
 import Container from '../components/Container';
 import Quote from '../components/Quote';
 import SocialButton from '../components/SocialButton';
-import Calendar from '../components/Calendar';
+import CalendarWidget from '../components/CalendarWidget';
 import { base, element } from '../styles/z-index';
 
 const HomePage = ({
@@ -31,7 +31,7 @@ const HomePage = ({
       </Head>
       <Container bgImage={background_image}>
       </Container>
-    <Calendar events={events} />
+    <CalendarWidget events={events} />
       <div className="sidebar">
         <header>
           <h1>{heading}</h1>
@@ -77,7 +77,7 @@ const HomePage = ({
           align-self: flex-start;
           padding: 0.3rem;
         }
-        a:hover, a:active {
+        a:hover, a:active, a:focus {
           color: ${sidebar_background};
           background-color: ${sidebar_text};
         }
@@ -110,7 +110,7 @@ const HomePage = ({
             grid-row: 1 / 2;
             z-index: ${base};
           }
-          .Calendar {
+          .CalendarWidget {
             background: linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 50%, transparent 80%);
             grid-column: 1 / 2;
             grid-row: 1 / 2;
@@ -118,7 +118,7 @@ const HomePage = ({
             z-index: ${element};
           }
           @media screen and (min-width: 768px) {
-            .Calendar {
+            .CalendarWidget {
               background: transparent;
             }
           }
@@ -130,10 +130,10 @@ const HomePage = ({
 
 HomePage.getInitialProps = async () => {
   const homeRes = await fetchHomePageContent();
-  const calendarRes = await fetchEvents({ pageSize: 3, afterToday: true });
+  const { results } = await fetchEvents({ pageSize: 3, afterToday: true });
 
   if (homeRes.data) {
-    return { ...homeRes.data, events: calendarRes };
+    return { ...homeRes.data, events: results };
   }
 
   return {};

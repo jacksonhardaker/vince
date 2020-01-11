@@ -16,11 +16,7 @@ const fetchEvents = async ({ pageSize, page, afterToday } = {}) => {
     { pageSize, page, orderings: '[my.calendar_event.first_date]' }
   );
 
-  if (response) {
-    return response.results;
-  }
-
-  return null;
+    return response;
 };
 
 export default fetchEvents;

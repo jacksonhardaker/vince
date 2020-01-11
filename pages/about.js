@@ -6,7 +6,6 @@ import Video from '../components/Video';
 import Breadcrumb from '../components/Breadcrumb';
 
 const AboutPage = (props) => {
-  console.log(props);
   const { biography, quotes, videos, background_color, text_color } = props;
 
   return (
@@ -38,6 +37,7 @@ const AboutPage = (props) => {
       <style jsx>
         {`
           main {
+            width: calc(100% - 4rem);
             max-width: 600px;
             margin: 0 auto;
             padding: 2rem;
@@ -52,7 +52,6 @@ const AboutPage = (props) => {
 
 AboutPage.getInitialProps = async () => {
   const aboutRes = await fetchAboutPageContent();
-  // const calendarRes = await fetchEvents({ pageSize: 3 });
 
   if (aboutRes.data) {
     return { ...aboutRes.data };

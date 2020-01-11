@@ -1,47 +1,18 @@
-import { Date } from 'prismic-reactjs';
+import Link from 'next/link';
+import last from 'lodash/last';
 import VincentHardakerSchema from './schema/VincentHardakerSchema';
 import LocationSchema from './schema/LocationSchema';
 import JSONLD from './schema/JSONLD';
 import MusicEventSchema from './schema/MusicEventSchema';
-import last from 'lodash/last';
+import useGroupDatesByMonth from '../hooks/useGroupDatesByMonth';
 
-const groupDatesByMonth = dates => {
-  const results = [
-    { name: 'January', dates: [] },
-    { name: 'February', dates: [] },
-    { name: 'March', dates: [] },
-    { name: 'April', dates: [] },
-    { name: 'May', dates: [] },
-    { name: 'June', dates: [] },
-    { name: 'July', dates: [] },
-    { name: 'August', dates: [] },
-    { name: 'September', dates: [] },
-    { name: 'October', dates: [] },
-    { name: 'November', dates: [] },
-    { name: 'December', dates: [] },
-  ]
-
-  dates.forEach(({ date, time }) => {
-    results[
-      Date(date).getMonth()
-    ].dates.push(
-      {
-        date: Date(date).getDate(),
-        time
-      }
-    );
-  });
-
-  return results.filter(month => !!month.dates[0]);
-};
-
-const Calendar = ({ events }) => {
+const CalendarWidget = ({ events }) => {
 
   const displayEvent = event => {
     const { data, id } = event;
     const dates = [{ date: data.first_date, time: data.first_time }, ...data.more_dates];
     const { heading, location, description } = data;
-    const parsedDates = groupDatesByMonth(dates);
+    const parsedDates = useGroupDatesByMonth(dates);
 
     return (
       <li key={id}>
@@ -55,17 +26,21 @@ const Calendar = ({ events }) => {
             performer={VincentHardakerSchema()}
            />
         </JSONLD>
-        <h3>{heading}</h3>
-        {parsedDates.map(month => (
-          <p key={month.name}>
-            <span className="dates">
-              {month.dates.map(datetime => datetime.date).join(',')}
-            </span>
-            <span className="month">
-              {month.name}
-            </span>
-          </p>
-        ))}
+        <Link href="/calendar" as={`/calendar#${id}`} >
+          <a>
+            <h3>{heading}</h3>
+            {parsedDates.map(month => (
+              <p key={month.name}>
+                <span className="dates">
+                  {month.dates.map(datetime => datetime.date).join(',')}
+                </span>
+                <span className="month">
+                  {month.name}
+                </span>
+              </p>
+            ))}
+          </a>
+        </Link>
         <style jsx>
           {`
             h3 {
@@ -76,6 +51,16 @@ const Calendar = ({ events }) => {
             }
             .dates {
               margin-right: 1ch;
+            }
+            a {
+              color: inherit;
+              text-decoration: none;
+              display: inline-block;
+              padding: 0 0.3rem;
+            }
+            a:hover, a:active, a:focus {
+              color: #000;
+              background-color: #fff;
             }
           `}
         </style>
@@ -103,7 +88,7 @@ const Calendar = ({ events }) => {
 
   return (
     <>
-      <aside className="Calendar">
+      <aside className="CalendarWidget">
         <h2>Calendar</h2>
         {displayEvents()}
       </aside>
@@ -119,4 +104,4 @@ const Calendar = ({ events }) => {
   );
 };
 
-export default Calendar;
+export default CalendarWidget;
