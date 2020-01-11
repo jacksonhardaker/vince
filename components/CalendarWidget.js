@@ -89,7 +89,11 @@ const CalendarWidget = ({ events }) => {
   return (
     <>
       <aside className="CalendarWidget">
-        <h2>Calendar</h2>
+        <Link href="/calendar">
+          <a>
+            <h2>Calendar</h2>
+          </a>
+        </Link>
         {displayEvents()}
       </aside>
       <style jsx>
@@ -97,6 +101,16 @@ const CalendarWidget = ({ events }) => {
         aside {
           padding: 2rem;
           color: #fff;
+        }
+        a {
+          color: inherit;
+          text-decoration: none;
+          display: inline-block;
+          padding: 0 0.3rem;
+        }
+        a:hover, a:active, a:focus {
+          color: #000;
+          background-color: #fff;
         }
       `}
       </style>
