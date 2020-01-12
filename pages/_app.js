@@ -41,7 +41,6 @@ const MainApp = ({ Component, pageProps, fonts, generalFont, headingFont, previe
 
 const prepareFonts = (general, heading) => {
   const fonts = [];
-  console.log(general);
 
   if (general) {
     fonts.push(general);

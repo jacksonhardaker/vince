@@ -29,6 +29,7 @@
     "normalize.css": "^8.0.1",
     "prismic-javascript": "^2.1.5",
     "prismic-reactjs": "^1.1.2",
+    "qs": "^6.9.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
   }
