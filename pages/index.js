@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { RichText } from 'prismic-reactjs';
 import hexToRgba from 'hex-to-rgba';
 import Head from 'next/head';
@@ -10,42 +11,46 @@ import SocialButton from '../components/SocialButton';
 import CalendarWidget from '../components/CalendarWidget';
 import { base, element } from '../styles/z-index';
 
-const HomePage = ({
-  heading,
-  subheading,
-  background_image,
-  quote_author,
-  quote_content,
-  quote_publication,
-  quote_link,
-  short_bio,
-  sidebar_background,
-  sidebar_text,
-  events,
-}) => {
+const HomePage = ({ content, events }) => {
+  const [pageContent, setPageContent] = useState(content);
+  const [concerts, setConcerts] = useState(events);
+
+  const rehydratePrismicContent = async () => {
+    const { data } = await fetchHomePageContent();
+    const { results } = await fetchEvents({ pageSize: 3, afterToday: true });
+
+    if (data) setPageContent(data);
+    if (results) setConcerts(results);
+  };
+
+  useEffect(() => {
+    rehydratePrismicContent();
+  }, []);
 
   return (
     <main>
       <Head>
         <title>Vincent Hardaker | Conductor</title>
       </Head>
-      <Container bgImage={background_image}>
+      <Container bgImage={pageContent.background_image}>
       </Container>
-    <CalendarWidget events={events} />
+
+      <CalendarWidget events={concerts} />
+
       <div className="sidebar">
         <header>
-          <h1>{heading}</h1>
-          <h2>{subheading}</h2>
+          <h1>{pageContent.heading}</h1>
+          <h2>{pageContent.subheading}</h2>
         </header>
 
         <Quote
-          author={quote_author}
-          content={quote_content}
-          cite={quote_link}
-          publication={quote_publication} />
+          author={pageContent.quote_author}
+          content={pageContent.quote_content}
+          cite={pageContent.quote_link}
+          publication={pageContent.quote_publication} />
 
         <div className="bio">
-          {RichText.render(short_bio)}
+          {RichText.render(pageContent.short_bio)}
         </div>
 
         <Link href="/about">
@@ -53,7 +58,7 @@ const HomePage = ({
         </Link>
 
         <footer>
-          <SocialButton solid="envelope" href="mailto:vincenthardaker@gmail.com" fill={sidebar_text} />
+          <SocialButton solid="envelope" href="mailto:vincenthardaker@gmail.com" fill={pageContent.sidebar_text} />
         </footer>
       </div>
       <style jsx>{`
@@ -65,30 +70,30 @@ const HomePage = ({
         .sidebar {
           display: flex;
           flex-direction: column;
-          background-color: ${sidebar_background};
-          color: ${sidebar_text};
+          background-color: ${pageContent.sidebar_background};
+          color: ${pageContent.sidebar_text};
           padding: 2rem;
         }
         h1, h2 {
           text-align: right;
         }
         a {
-          color: ${sidebar_text};
+          color: ${pageContent.sidebar_text};
           align-self: flex-start;
           padding: 0.3rem;
         }
         a:hover, a:active, a:focus {
-          color: ${sidebar_background};
-          background-color: ${sidebar_text};
+          color: ${pageContent.sidebar_background};
+          background-color: ${pageContent.sidebar_text};
         }
         header {
-          border-bottom: 1px solid ${hexToRgba(sidebar_text, 0.3)};
+          border-bottom: 1px solid ${hexToRgba(pageContent.sidebar_text, 0.3)};
         }
         footer {
           padding-top: 2rem;
           margin: auto auto 0;
           width: 100%;
-          border-top: 1px solid ${hexToRgba(sidebar_text, 0.3)};
+          border-top: 1px solid ${hexToRgba(pageContent.sidebar_text, 0.3)};
           text-align: center;
         }
         @media screen and (min-width: 768px) {
@@ -129,14 +134,10 @@ const HomePage = ({
 };
 
 HomePage.getInitialProps = async () => {
-  const homeRes = await fetchHomePageContent();
+  const { data } = await fetchHomePageContent();
   const { results } = await fetchEvents({ pageSize: 3, afterToday: true });
 
-  if (homeRes.data) {
-    return { ...homeRes.data, events: results };
-  }
-
-  return {};
+  return { content: data, events: results };
 };
 
 export default HomePage;

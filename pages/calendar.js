@@ -6,9 +6,37 @@ import Breadcrumb from '../components/Breadcrumb';
 import fetchCalendarPageContent from '../fetch/fetchCalendarPageContent';
 import CalendarEvent from '../components/CalendarEvent';
 
-const CalendarPage = (props) => {
-  const { text_color, background_color, ...rest } = props;
-  const [pages, setPages] = useState([{ ...rest }]);
+const CalendarPage = ({ content, events }) => {
+  const [pageContent, setPageContent] = useState(content);
+  const [concerts, setConcerts] = useState(events);
+  const [pages, setPages] = useState([events]);
+
+  const rehydratePrismicContent = async (resolve) => {
+    const { data } = await fetchCalendarPageContent();
+    const calendarRes = await fetchEvents();
+
+    resolve({
+      data,
+      events: calendarRes
+    });
+  };
+
+  useEffect(() => {
+    let outerReject;
+    new Promise((resolve, reject) => {
+      outerReject = reject;
+      rehydratePrismicContent(resolve);
+    }).then(({ data, events }) => {
+      if (data) setPageContent(data);
+      if (events) setConcerts(events);
+    });
+
+    return outerReject;
+  }, []);
+
+  useEffect(() => {
+    setPages([concerts])
+  }, [concerts]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -43,7 +71,7 @@ const CalendarPage = (props) => {
       <Head>
         <title>Calendar | Vincent Hardaker</title>
       </Head>
-      <Breadcrumb href="/calendar" page="Calendar" color={text_color} hover={background_color} />
+      <Breadcrumb href="/calendar" page="Calendar" color={pageContent.text_color} hover={pageContent.background_color} />
       <h1>Calendar</h1>
       <article>
         {renderPages()}
@@ -55,8 +83,8 @@ const CalendarPage = (props) => {
             max-width: 600px;
             margin: 0 auto;
             padding: 2rem;
-            background-color: ${background_color};
-            color: ${text_color};
+            background-color: ${pageContent.background_color};
+            color: ${pageContent.text_color};
           }
         `}
       </style>
@@ -69,7 +97,7 @@ CalendarPage.getInitialProps = async () => {
   const calendarRes = await fetchEvents();
 
   if (calendarRes) {
-    return { ...data, ...calendarRes };
+    return { content: data, events: calendarRes };
   }
 
   return {};

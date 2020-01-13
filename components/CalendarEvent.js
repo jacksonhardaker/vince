@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Date } from 'prismic-reactjs';
+import { Date, RichText } from 'prismic-reactjs';
 import last from 'lodash/last';
 import JSONLD from './schema/JSONLD';
 import MusicEventSchema from './schema/MusicEventSchema';
@@ -65,7 +65,7 @@ const CalendarEvent = ({ event }) => {
         name={heading}
         startDate={dates[0].date}
         endDate={last(dates).date}
-        description={description}
+        description={RichText.asText.description}
         location={LocationSchema({ name: location })}
         performer={VincentHardakerSchema()}
        />
@@ -73,7 +73,7 @@ const CalendarEvent = ({ event }) => {
 
       <h2>{heading}</h2>
       {location && <h3>{location}</h3>}
-      {description && <p>{description}</p>}
+      {description && RichText.render(description)}
       <ul>
         {dates.map(({ date, time }, index) => (
           <li key={index}>
