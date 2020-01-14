@@ -83,8 +83,14 @@ const CalendarPage = ({ content, events }) => {
             max-width: 600px;
             margin: 0 auto;
             padding: 2rem;
-            background-color: ${pageContent.background_color};
             color: ${pageContent.text_color};
+          }
+        `}
+      </style>
+      <style global jsx>
+        {`
+          #__next {
+            background-color: ${pageContent.background_color};
           }
         `}
       </style>
