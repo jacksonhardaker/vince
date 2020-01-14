@@ -3,7 +3,7 @@ import JSONLD from './schema/JSONLD';
 
 const Breadcrumb = ({ page, href, color, hover }) => {
   return (
-    <nav>
+    <nav className="Breadcrumb">
       <JSONLD>
         {`
           {
