@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "trailingSlash": false,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@now/next"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/(photos|media)(/?)",
+      "destination": "/about"
+    }
+  ]
+}
