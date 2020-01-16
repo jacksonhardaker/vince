@@ -65,6 +65,9 @@ const AboutPage = ({ content }) => {
           .content {
             grid-column: 1 / 3;
           }
+          .quotes {
+            margin-bottom: 4rem;
+          }
           .videos {
             grid-column: 1 / 3;
           }
