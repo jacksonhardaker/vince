@@ -12,7 +12,6 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <meta name="viewport" content="initial-scale=1.0, width=device-width" />
           <JSONLD>
             <VincentHardakerSchema />
           </JSONLD>

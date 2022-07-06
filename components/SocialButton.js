@@ -1,27 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import Base64SVG from './Base64SVG';
+import React, { useState, useEffect } from "react";
+import Base64SVG from "./Base64SVG";
+import envelope from "@fortawesome/fontawesome-free/svgs/solid/envelope.svg";
+
+const icons = { envelope };
+
+console.log(icons);
 
 const SocialButton = ({ brand, regular, solid, href, fill, hover }) => {
-  const [svg, setSvg] = useState(null);
+  const svg = icons[solid || regular || brand] || null;
 
-  useEffect(() => {
-    if (brand) {
-      import(`@fortawesome/fontawesome-free/svgs/brands/${brand}.svg`).then((module) => setSvg(module.default));
-    }
-    else if (regular) {
-      import(`@fortawesome/fontawesome-free/svgs/regular/${regular}.svg`).then((module) => setSvg(module.default));
-    }
-    else if (solid) {
-      import(`@fortawesome/fontawesome-free/svgs/solid/${solid}.svg`).then((module) => setSvg(module.default));
-    }
-  }, []);
-
-  if (!svg)
-    return null;
+  if (!svg) return null;
 
   return (
     <a href={href} target="_blank" rel="noopener noreferrer">
-      <Base64SVG stream={svg} {... { fill, hover }} />
+      <Base64SVG stream={svg} {...{ fill, hover }} />
       <style jsx>{`
         a {
           width: 24px;
