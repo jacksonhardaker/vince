@@ -13,7 +13,7 @@ const fetchEvents = async ({ pageSize, page, afterToday } = {}) => {
   const client = usePrismicClient();
   const response = await client.query(
     predicates,
-    { pageSize, page, orderings: '[my.calendar_event.first_date]' }
+    { pageSize, page, orderings: '[my.calendar_event.first_date] desc' }
   );
 
     return response;
