@@ -13,11 +13,14 @@ const CalendarPage = ({ content, events }) => {
 
   const rehydratePrismicContent = async (resolve) => {
     const { data } = await fetchCalendarPageContent();
-    const calendarRes = await fetchEvents();
+    const [before, after] = await Promise.all([
+      fetchEvents({ beforeToday: true }),
+      fetchEvents({ afterToday: true }),
+    ]);
 
     resolve({
       data,
-      events: calendarRes
+      events: [before, after],
     });
   };
 
@@ -35,7 +38,7 @@ const CalendarPage = ({ content, events }) => {
   }, []);
 
   useEffect(() => {
-    setPages([concerts])
+    setPages([concerts]);
   }, [concerts]);
 
   useEffect(() => {
@@ -46,7 +49,9 @@ const CalendarPage = ({ content, events }) => {
       const lastPage = last(pages);
 
       if (lastPage.next_page) {
-        const data = await fetch(lastPage.next_page, { signal }).then(res => res.json());
+        const data = await fetch(lastPage.next_page, { signal }).then((res) =>
+          res.json()
+        );
         setPages([...pages, data]);
       }
     })();
@@ -57,13 +62,23 @@ const CalendarPage = ({ content, events }) => {
   }, [pages]);
 
   const renderPages = () => {
-    return pages.map(({ results }) => {
-      return results.map(event => {
+    return pages.map(
+      ([{ results: beforeResults }, { results: afterResults }]) => {
         return (
-          <CalendarEvent key={event.id} event={event} />
+          <>
+            <h2>Upcoming Events</h2>
+            {afterResults.map((event) => (
+              <CalendarEvent key={event.id} event={event} />
+            ))}
+            <hr />
+            <h2>Past Events</h2>
+            {beforeResults.map((event) => (
+              <CalendarEvent key={event.id} event={event} />
+            ))}
+          </>
         );
-      });
-    });
+      }
+    );
   };
 
   return (
@@ -71,11 +86,14 @@ const CalendarPage = ({ content, events }) => {
       <Head>
         <title>Calendar | Vincent Hardaker</title>
       </Head>
-      <Breadcrumb href="/calendar" page="Calendar" color={pageContent.text_color} hover={pageContent.background_color} />
+      <Breadcrumb
+        href="/calendar"
+        page="Calendar"
+        color={pageContent.text_color}
+        hover={pageContent.background_color}
+      />
       <h1>Calendar</h1>
-      <article>
-        {renderPages()}
-      </article>
+      <article>{renderPages()}</article>
       <style jsx>
         {`
           main {
@@ -92,6 +110,22 @@ const CalendarPage = ({ content, events }) => {
           #__next {
             background-color: ${pageContent.background_color};
           }
+          :root {
+            --text-color: ${pageContent.text_color};
+            --background-color: ${pageContent.background_color};
+          }
+
+          a {
+            color: var(--text-color);
+            align-self: flex-start;
+            padding: 0.3rem;
+          }
+          a:hover,
+          a:active,
+          a:focus {
+            color: var(--background-color);
+            background-color: var(--text-color);
+          }
         `}
       </style>
     </main>
@@ -100,10 +134,13 @@ const CalendarPage = ({ content, events }) => {
 
 CalendarPage.getInitialProps = async () => {
   const { data } = await fetchCalendarPageContent();
-  const calendarRes = await fetchEvents();
+  const [before, after] = await Promise.all([
+    fetchEvents({ beforeToday: true }),
+    fetchEvents({ afterToday: true }),
+  ]);
 
-  if (calendarRes) {
-    return { content: data, events: calendarRes };
+  if (before && after) {
+    return { content: data, events: [before, after] };
   }
 
   return {};
