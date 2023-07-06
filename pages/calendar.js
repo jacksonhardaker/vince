@@ -64,7 +64,6 @@ const CalendarPage = ({ content, events }) => {
   const renderPages = () => {
     return pages.map(
       ([{ results: beforeResults }, { results: afterResults }]) => {
-
         return (
           <>
             <h2>Upcoming Events</h2>
@@ -110,6 +109,22 @@ const CalendarPage = ({ content, events }) => {
         {`
           #__next {
             background-color: ${pageContent.background_color};
+          }
+          :root {
+            --text-color: ${pageContent.text_color};
+            --background-color: ${pageContent.background_color};
+          }
+
+          a {
+            color: var(--text-color);
+            align-self: flex-start;
+            padding: 0.3rem;
+          }
+          a:hover,
+          a:active,
+          a:focus {
+            color: var(--background-color);
+            background-color: var(--text-color);
           }
         `}
       </style>
