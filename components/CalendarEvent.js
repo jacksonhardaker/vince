@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Date, RichText } from "prismic-reactjs";
-import last from "lodash/last";
-import JSONLD from "./schema/JSONLD";
-import MusicEventSchema from "./schema/MusicEventSchema";
-import VincentHardakerSchema from "./schema/VincentHardakerSchema";
-import LocationSchema from "./schema/LocationSchema";
+import React, { useEffect, useState, useRef } from 'react';
+import { Date, RichText } from 'prismic-reactjs';
+import last from 'lodash/last';
+import JSONLD from './schema/JSONLD';
+import MusicEventSchema from './schema/MusicEventSchema';
+import VincentHardakerSchema from './schema/VincentHardakerSchema';
+import LocationSchema from './schema/LocationSchema';
 
 const CalendarEvent = ({ event }) => {
   const [hash, setHash] = useState(null);
@@ -23,11 +23,11 @@ const CalendarEvent = ({ event }) => {
   };
 
   const format = (date) => {
-    return new Intl.DateTimeFormat("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+    return new Intl.DateTimeFormat('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     }).format(Date(date));
   };
 
@@ -50,10 +50,10 @@ const CalendarEvent = ({ event }) => {
   }, [hash]);
 
   useEffect(() => {
-    window.addEventListener("hashchange", handleHashChange, false);
+    window.addEventListener('hashchange', handleHashChange, false);
 
     return () => {
-      window.removeEventListener("hashchange", handleHashChange);
+      window.removeEventListener('hashchange', handleHashChange);
     };
   }, [handleHashChange]);
 

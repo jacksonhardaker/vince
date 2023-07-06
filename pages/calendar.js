@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import Head from "next/head";
-import last from "lodash/last";
-import fetchEvents from "../fetch/fetchEvents";
-import Breadcrumb from "../components/Breadcrumb";
-import fetchCalendarPageContent from "../fetch/fetchCalendarPageContent";
-import CalendarEvent from "../components/CalendarEvent";
+import React, { useEffect, useState } from 'react';
+import Head from 'next/head';
+import last from 'lodash/last';
+import fetchEvents from '../fetch/fetchEvents';
+import Breadcrumb from '../components/Breadcrumb';
+import fetchCalendarPageContent from '../fetch/fetchCalendarPageContent';
+import CalendarEvent from '../components/CalendarEvent';
 
 const CalendarPage = ({ content, events }) => {
   const [pageContent, setPageContent] = useState(content);
